@@ -1,0 +1,159 @@
+# Healthcare Appointment & Follow-up Manager
+
+A full-stack clinic management platform with separate portals for **Patients**, **Doctors**, and **Admins**.
+
+## Features
+- Patient registration, login, doctor search by specialisation, slot booking
+- Symptom form with **LLM-generated pre-visit summary** (urgency level, chief complaint, suggested questions)
+- Doctor portal: view patient symptom summaries, submit post-visit notes
+- **LLM-generated patient-friendly post-visit summary** with medication schedule
+- Email notifications via SendGrid: booking confirmation, reminders, cancellations
+- **Google Calendar** events created/updated/deleted on booking changes
+- Medication reminders via background job
+- Admin: create doctor profiles, manage leave days (auto-cancels bookings & notifies patients)
+- Double-booking prevention via DB unique constraint + application-level check
+
+---
+
+## Tech Stack
+- **Backend**: Node.js, Express, TypeScript, Sequelize ORM, SQLite
+- **Frontend**: React 17, TypeScript, Redux Toolkit, React Router v5, Axios
+- **Email**: SendGrid
+- **Calendar**: Google Calendar API (OAuth 2.0)
+- **LLM**: OpenAI GPT (graceful degradation when key absent)
+
+---
+
+## Setup Instructions
+
+### 1. Clone & Install
+
+```bash
+git clone <repo-url>
+cd healthcare-appointment-manager
+
+# Backend
+cd backend
+npm install
+
+# Frontend
+cd ../frontend
+npm install
+```
+
+### 2. Configure Environment
+
+Copy `.env.example` to `backend/.env` and fill in values:
+
+```bash
+cp .env.example backend/.env
+```
+
+Required for full functionality:
+- `JWT_SECRET` — any strong random string
+- `SENDGRID_API_KEY` + `SENDER_EMAIL` — for emails
+- `OPENAI_API_KEY` — for LLM summaries
+- `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET` — for calendar events
+
+The app **works without** any external API keys; those features degrade gracefully.
+
+### 3. Run
+
+```bash
+# Terminal 1 — Backend (port 3001)
+cd backend
+npm run dev
+
+# Terminal 2 — Frontend (port 3000)
+cd frontend
+npm start
+```
+
+### 4. Create Admin User
+
+Register via API (no frontend admin registration — by design):
+```bash
+curl -X POST http://localhost:3001/api/auth/register/patient \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","email":"admin@clinic.com","password":"Admin123","role":"admin"}'
+```
+Then manually update the SQLite DB row: `UPDATE users SET role='admin' WHERE email='admin@clinic.com';`
+
+---
+
+## Database Schema
+See `db/schema.sql`. Tables: `users`, `doctors`, `patients`, `appointments`, `doctor_leaves`, `symptoms`, `post_visit_notes`, `medications`, `notifications`.
+
+The database is auto-created via `sequelize.sync({ alter: true })` on server start — no manual migration needed for development.
+
+---
+
+## LLM Prompts
+
+### Pre-visit
+```
+Analyse these patient symptoms and provide:
+1. Urgency level (Low/Medium/High)
+2. Chief complaint (brief summary)
+3. Three suggested questions for the doctor
+
+Symptoms: <symptoms>
+
+Respond in JSON format: { "urgencyLevel": "...", "chiefComplaint": "...", "suggestedQuestions": [...] }
+```
+
+### Post-visit
+```
+Convert these clinical notes into a patient-friendly summary with medication schedule and follow-up steps:
+
+Clinical Notes: <notes>
+Prescription: <prescription>
+```
+
+---
+
+## Google Calendar Setup
+
+See `docs/google-calendar-setup.md` for detailed OAuth 2.0 setup steps.
+
+Quick summary:
+1. Create a project at [Google Cloud Console](https://console.cloud.google.com)
+2. Enable the **Google Calendar API**
+3. Create OAuth 2.0 credentials (Web Application)
+4. Add `http://localhost:3001/api/auth/google/callback` as an authorised redirect URI
+5. Copy Client ID and Secret to `backend/.env`
+6. Patients pass their OAuth access token as `patient_calendar_token` in the booking request
+
+---
+
+## API Documentation
+See `docs/api.md` for all endpoints, request/response formats, and auth requirements.
+
+## System Design
+See `docs/system-design.md` for architecture decisions around double-booking prevention, leave conflict handling, slot hold mechanism, and notification failure handling.
+
+---
+
+## Project Structure
+```
+backend/src/
+  config/         env, db, email, llm, calendar
+  controllers/    auth, doctor, appointment, admin
+  jobs/           reminderJob (hourly background job)
+  middleware/     auth, errorHandler
+  models/         User, Doctor, Patient, Appointment, DoctorLeave,
+                  Symptom, PostVisitNote, Medication, Notification
+  routes/         auth, doctor, appointment, admin
+  services/       notificationService, calendarService
+
+frontend/src/
+  components/     Navbar, PrivateRoute
+  hooks/          useAuth
+  pages/
+    patient/      DoctorSearch, BookAppointment, MyAppointments, AppointmentDetail
+    doctor/       Dashboard, PostVisitForm
+    admin/        Dashboard, CreateDoctor, ManageLeaves
+  services/       api.ts (all Axios calls)
+  store/          Redux store + authSlice
+  types/          TypeScript interfaces
+```
