@@ -1,5 +1,19 @@
 # Healthcare Appointment & Follow-up Manager
 
+![React](https://img.shields.io/badge/React-17-61DAFB?logo=react&logoColor=white)
+
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
+
+![Node.js](https://img.shields.io/badge/Node.js-Express-339933?logo=node.js&logoColor=white)
+
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-4169E1?logo=postgresql&logoColor=white)
+
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT-10A37F?logo=openai&logoColor=white)
+
+![Deployment](https://img.shields.io/badge/Deployment-Netlify%20%7C%20Render-success)
+
+![License](https://img.shields.io/badge/License-MIT-blue)
+
 A full-stack clinic management platform with separate portals for **Patients**, **Doctors**, and **Admins**.
 
 ## Features
