@@ -56,11 +56,37 @@ A full-stack clinic management platform with separate portals for **Patients**, 
 ---
 
 ## Tech Stack
-- **Backend**: Node.js, Express, TypeScript, Sequelize ORM, PostgreSQL
-- **Frontend**: React 17, TypeScript, Redux Toolkit, React Router v5, Axios
-- **Email**: SendGrid
-- **Calendar**: Google Calendar API (OAuth 2.0)
-- **LLM**: OpenAI GPT (graceful degradation when key absent)
+
+### Frontend
+- React 17
+- TypeScript
+- Redux Toolkit
+- React Router v5
+- Axios
+
+### Backend
+- Node.js
+- Express.js
+- TypeScript
+- Sequelize ORM
+
+### Database
+- PostgreSQL (Neon Cloud)
+
+### Artificial Intelligence
+- OpenAI GPT
+
+### Third-Party Integrations
+- Google Calendar API
+- SendGrid
+
+### Deployment
+- Netlify (Frontend)
+- Render (Backend)
+
+### Version Control
+- Git
+- GitHub
 
 ---
 
