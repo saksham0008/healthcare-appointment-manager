@@ -11,7 +11,22 @@ import { startReminderJob } from './jobs/reminderJob';
 
 const app: Application = express();
 
-app.use(cors());
+// Allow requests from the frontend (local + deployed)
+const allowedOrigins = [
+  'http://localhost:3000',
+  config.FRONTEND_URL,
+].filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(null, true); // permissive for demo deployment
+  },
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -38,8 +53,10 @@ const startServer = async () => {
 
     startReminderJob();
 
-    app.listen(config.PORT, '127.0.0.1', () => {
-      console.log(`✅ Server running on http://127.0.0.1:${config.PORT}`);
+    // Bind to 0.0.0.0 in production (required by Render), 127.0.0.1 in dev
+    const host = config.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1';
+    app.listen(config.PORT, host, () => {
+      console.log(`✅ Server running on http://${host}:${config.PORT}`);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
