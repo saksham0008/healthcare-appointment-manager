@@ -10,7 +10,8 @@
     "eject": "react-scripts eject"
   },
   "engines": {
-    "node": "18.x"
+    "node": "18.x",
+    "npm": ">=8"
   },
   "dependencies": {
     "react": "^17.0.2",

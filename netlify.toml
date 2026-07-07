@@ -1,0 +1,14 @@
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "frontend/build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NODE_OPTIONS = "--openssl-legacy-provider"
+  CI = "false"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
