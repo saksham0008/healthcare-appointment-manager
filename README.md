@@ -16,7 +16,7 @@ A full-stack clinic management platform with separate portals for **Patients**, 
 ---
 
 ## Tech Stack
-- **Backend**: Node.js, Express, TypeScript, Sequelize ORM, SQLite
+- **Backend**: Node.js, Express, TypeScript, Sequelize ORM, PostgreSQL
 - **Frontend**: React 17, TypeScript, Redux Toolkit, React Router v5, Axios
 - **Email**: SendGrid
 - **Calendar**: Google Calendar API (OAuth 2.0)
@@ -57,7 +57,38 @@ Required for full functionality:
 
 The app **works without** any external API keys; those features degrade gracefully.
 
-### 3. Run
+### 3. Database Setup
+
+The app uses **PostgreSQL**. You need a PostgreSQL database before running the backend.
+
+#### Option A — Local PostgreSQL
+1. Install PostgreSQL from [postgresql.org](https://www.postgresql.org/download/)
+2. Create a database: `createdb healthcare_db`
+3. Set in `backend/.env`:
+   ```
+   DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/healthcare_db
+   ```
+
+#### Option B — Free Cloud PostgreSQL (no install needed)
+
+| Provider | Free Tier | Notes |
+|---|---|---|
+| **[Neon.tech](https://neon.tech)** *(recommended)* | 3 GB storage, no credit card | Serverless PostgreSQL |
+| **[Supabase](https://supabase.com)** | 500 MB | Full Postgres |
+| **[Railway](https://railway.app)** | Free tier | Simple setup |
+| **[ElephantSQL](https://www.elephantsql.com)** | 20 MB | Classic managed PG |
+
+After creating a database on any of the above, copy the connection string into `backend/.env`:
+```
+DATABASE_URL=postgresql://user:password@host:5432/dbname
+```
+
+> All tables are auto-created via `sequelize.sync({ alter: true })` on server start — no manual migration needed.
+
+#### Render Deployment
+Add `DATABASE_URL` as an environment variable in your Render service, pointing to any of the cloud providers above.
+
+### 4. Run
 
 ```bash
 # Terminal 1 — Backend (port 3001)
@@ -69,7 +100,7 @@ cd frontend
 npm start
 ```
 
-### 4. Create Admin User
+### 5. Create Admin User
 
 Register via API (no frontend admin registration — by design):
 ```bash
@@ -77,7 +108,10 @@ curl -X POST http://localhost:3001/api/auth/register/patient \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","email":"admin@clinic.com","password":"Admin123","role":"admin"}'
 ```
-Then manually update the SQLite DB row: `UPDATE users SET role='admin' WHERE email='admin@clinic.com';`
+Then update the role directly in your PostgreSQL database:
+```sql
+UPDATE users SET role='admin' WHERE email='admin@clinic.com';
+```
 
 ---
 

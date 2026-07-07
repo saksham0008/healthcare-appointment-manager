@@ -6,8 +6,7 @@ export const config = {
   PORT: parseInt(process.env.PORT || '3001', 10),
   NODE_ENV: process.env.NODE_ENV || 'development',
 
-  DB_DIALECT: process.env.DB_DIALECT || 'sqlite',
-  DB_STORAGE: process.env.DB_STORAGE || './database.sqlite',
+  DATABASE_URL: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/healthcare_db',
 
   JWT_SECRET: process.env.JWT_SECRET || 'your_secret_key',
   JWT_EXPIRY: process.env.JWT_EXPIRY || '24h',

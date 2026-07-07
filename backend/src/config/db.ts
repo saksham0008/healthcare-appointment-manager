@@ -1,9 +1,18 @@
 import { Sequelize } from 'sequelize';
 import { config } from './env';
 
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: config.DB_STORAGE,
+const isProduction = config.NODE_ENV === 'production';
+
+const sequelize = new Sequelize(config.DATABASE_URL, {
+  dialect: 'postgres',
+  dialectOptions: isProduction
+    ? {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false, // needed for Render/Neon free tier
+        },
+      }
+    : {},
   logging: false,
 });
 
