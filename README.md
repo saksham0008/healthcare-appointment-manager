@@ -205,3 +205,33 @@ frontend/src/
   store/          Redux store + authSlice
   types/          TypeScript interfaces
 ```
+---
+
+## 📸 Screenshots
+
+### Landing Page
+![Landing Page](screenshots/landing-page.png)
+
+### Find Doctors
+![Find Doctors](screenshots/find-doctors.png)
+
+### Book Appointment
+![Book Appointment](screenshots/book-appointments.png)
+
+### My Appointments
+![My Appointments](screenshots/my-appointments.png)
+
+### Appointment Details
+![Appointment Details](screenshots/appointment-details.png)
+
+### Doctor Dashboard
+![Doctor Dashboard](screenshots/doctor-dashboard.png)
+
+### Post-Visit Notes
+![Post Visit Notes](screenshots/post-visit-notes.png)
+
+### Admin Dashboard
+![Admin Dashboard](screenshots/admin-dashboard.png)
+
+### Manage Doctor Leaves
+![Manage Doctor Leaves](screenshots/manage-doctor-leaves.png)
