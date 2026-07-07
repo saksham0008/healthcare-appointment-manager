@@ -25,6 +25,21 @@ https://healthcare-backend-yj04.onrender.com
 **GitHub Repository:**  
 https://github.com/saksham0008/healthcare-appointment-manager
 
+## Key Highlights
+
+- Full-stack healthcare appointment and follow-up management platform
+- Multi-role authentication (Patient, Doctor, and Admin)
+- AI-powered symptom analysis using OpenAI
+- AI-generated post-visit summaries
+- Doctor appointment booking and management
+- Google Calendar integration for appointment scheduling
+- SendGrid email notifications and reminders
+- PostgreSQL database using Neon Cloud
+- RESTful API built with Express and TypeScript
+- Redux Toolkit for frontend state management
+- Responsive React frontend
+- Deployed using Netlify (Frontend) and Render (Backend)
+
 A full-stack clinic management platform with separate portals for **Patients**, **Doctors**, and **Admins**.
 
 ## Features
