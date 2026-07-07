@@ -14,6 +14,17 @@
 
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
+## Live Demo
+
+**Frontend (Netlify):**  
+https://healthcare-appointment-management.netlify.app
+
+**Backend API (Render):**  
+https://healthcare-backend-yj04.onrender.com
+
+**GitHub Repository:**  
+https://github.com/saksham0008/healthcare-appointment-manager
+
 A full-stack clinic management platform with separate portals for **Patients**, **Doctors**, and **Admins**.
 
 ## Features
