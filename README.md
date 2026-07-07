@@ -14,6 +14,23 @@
 
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
+---
+
+A production-ready full-stack healthcare appointment and follow-up management platform built using React, TypeScript, Express.js, PostgreSQL, and OpenAI.
+
+The platform enables patients, doctors, and administrators to efficiently manage appointments while leveraging AI-powered symptom analysis, automated notifications, and calendar integration.
+
+## Project Status
+
+**Status:** Completed and Deployed
+
+| Service | Status | URL |
+|----------|--------|-----|
+| Frontend | Live | https://healthcare-appointment-management.netlify.app |
+| Backend | Live | https://healthcare-backend-yj04.onrender.com |
+| Database | Live | Neon PostgreSQL |
+---
+
 ## Live Demo
 
 **Frontend (Netlify):**  
@@ -24,6 +41,7 @@ https://healthcare-backend-yj04.onrender.com
 
 **GitHub Repository:**  
 https://github.com/saksham0008/healthcare-appointment-manager
+---
 
 ## Key Highlights
 
@@ -40,19 +58,85 @@ https://github.com/saksham0008/healthcare-appointment-manager
 - Responsive React frontend
 - Deployed using Netlify (Frontend) and Render (Backend)
 
-A full-stack clinic management platform with separate portals for **Patients**, **Doctors**, and **Admins**.
-
+---
 ## Features
-- Patient registration, login, doctor search by specialisation, slot booking
-- Symptom form with **LLM-generated pre-visit summary** (urgency level, chief complaint, suggested questions)
-- Doctor portal: view patient symptom summaries, submit post-visit notes
-- **LLM-generated patient-friendly post-visit summary** with medication schedule
-- Email notifications via SendGrid: booking confirmation, reminders, cancellations
-- **Google Calendar** events created/updated/deleted on booking changes
-- Medication reminders via background job
-- Admin: create doctor profiles, manage leave days (auto-cancels bookings & notifies patients)
-- Double-booking prevention via DB unique constraint + application-level check
 
+### Patient Portal
+- Secure user registration and authentication
+- Search doctors by specialization
+- Book and manage appointments
+- View appointment history and details
+- AI-powered symptom analysis before appointments
+
+### Doctor Portal
+- View scheduled appointments
+- Access AI-generated patient symptom summaries
+- Add post-visit clinical notes
+- Generate patient-friendly visit summaries
+
+### Admin Portal
+- Create and manage doctor profiles
+- Manage doctor leave schedules
+- Automatically cancel conflicting appointments
+- Monitor healthcare system operations
+
+### Smart Integrations
+- OpenAI-powered symptom analysis and visit summaries
+- Google Calendar synchronization
+- SendGrid email notifications
+- Automated medication reminders
+
+### Security & Reliability
+- JWT-based authentication
+- Role-based access control
+- Double-booking prevention
+- PostgreSQL persistent storage
+- RESTful API architecture
+
+---
+## System Architecture
+
+```
+                        React + TypeScript Frontend
+                                  │
+                                  ▼
+                     REST API (Axios + Express.js)
+                                  │
+          ┌───────────────────────┼────────────────────────┐
+          │                       │                        │
+          ▼                       ▼                        ▼
+ Authentication           Appointment Service      Admin Service
+ (JWT + RBAC)             Booking & Scheduling     Doctor Management
+          │                       │                        │
+          └───────────────────────┼────────────────────────┘
+                                  ▼
+                      PostgreSQL Database (Neon)
+                                  │
+         ┌────────────────────────┼────────────────────────┐
+         ▼                        ▼                        ▼
+   OpenAI GPT             Google Calendar            SendGrid
+Symptom Analysis          Event Synchronization     Email Notifications
+```
+
+---
+
+## Deployment Architecture
+
+```
+Frontend (React)
+        │
+        ▼
+ Netlify Hosting
+        │
+        ▼
+ REST API
+        │
+        ▼
+ Render Backend
+        │
+        ▼
+ Neon PostgreSQL
+```
 ---
 
 ## Tech Stack
@@ -287,3 +371,25 @@ frontend/src/
 
 ### Manage Doctor Leaves
 ![Manage Doctor Leaves](screenshots/manage-doctor-leaves.png)
+
+---
+
+## Future Enhancements
+
+- Real-time appointment updates using WebSockets
+- Video consultation integration
+- Online payment gateway
+- Electronic Health Records (EHR)
+- SMS notifications
+- Medical report uploads
+- Doctor availability analytics
+- Multi-language support
+
+---
+
+## Author
+
+**Saksham Gupta**
+
+- GitHub: https://github.com/saksham0008
+- LinkedIn: https://www.linkedin.com/in/saksham-gupta0008/
